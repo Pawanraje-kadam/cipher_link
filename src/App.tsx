@@ -18,14 +18,12 @@ function App() {
             CipherLink
           </h1>
           <p className="text-slate-400 max-w-lg text-sm md:text-base">
-             AES-256 Encryption (milletry grade)  
-             Advanced cryptography
-             Secret-key protected 
+       CipherLink is a advance cryptographic engine that locks your text messages using military-grade AES-GCM 256-bit encryption, allowing you private massages to share completely untraceable across any platform.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-2 text-xs sm:text-sm text-slate-400">
             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">Browser-only</span>
-            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">Zero-knowledge</span>
+            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">Untraceable</span>
             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">No server storage</span>
           </div>
 
