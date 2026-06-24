@@ -18,7 +18,9 @@ function App() {
             CipherLink
           </h1>
           <p className="text-slate-400 max-w-lg text-sm md:text-base">
-            Zero-knowledge, browser-only message encryption. Your keys and data never leave this device.
+             AES-256 Encryption (milletry grade)  
+             Advanced cryptography
+             Secret-key protected 
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-2 text-xs sm:text-sm text-slate-400">
