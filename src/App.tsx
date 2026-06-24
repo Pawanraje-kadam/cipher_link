@@ -28,7 +28,7 @@ function App() {
           </div>
 
           <div className="w-full max-w-3xl rounded-2xl border border-white/10 bg-slate-900/40 p-4 text-sm text-slate-300 shadow-lg backdrop-blur">
-            <p className="font-medium text-slate-100">Use the left panel to lock a message and the right panel to reveal it later.</p>
+          
             <p className="mt-1 text-slate-400">Your content stays in this browser session, and the same secret key works for both steps.</p>
           </div>
         </div>
