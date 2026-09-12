@@ -60,7 +60,7 @@ export function DecryptBox() {
       accent="warn"
       meta={
         <span className="flex items-center gap-1.5">
-          <span className="h-1.5 w-1.5 bg-warn animate-pulse-subtle" /> standby
+          <span className="led bg-warn animate-pulse-subtle" /> standby
         </span>
       }
     >
@@ -103,7 +103,7 @@ export function DecryptBox() {
             <button
               type="button"
               onClick={() => setShowKey((s) => !s)}
-              className="text-[15px] font-mono font-bold uppercase tracking-[0.12em] text-bone-300 hover:text-bone-50 transition-colors"
+              className="px-1.5 py-1 touch:min-h-tap text-[0.9375rem] font-mono font-bold uppercase tracking-[0.12em] text-bone-300 hover:text-bone-50 transition-colors"
             >
               {showKey ? "hide" : "show"}
             </button>
@@ -117,12 +117,12 @@ export function DecryptBox() {
             variant="secondary"
             className="flex-1"
           >
-            <KeyRound className="w-[18px] h-[18px] mr-2" />
+            <KeyRound className="w-[1.125rem] h-[1.125rem] mr-2" />
             Decrypt
-            <ArrowRight className="w-[18px] h-[18px] ml-2" />
+            <ArrowRight className="w-[1.125rem] h-[1.125rem] ml-2" />
           </Button>
           <Button variant="ghost" onClick={handleClear} aria-label="Clear">
-            <Trash2 className="w-[18px] h-[18px]" />
+            <Trash2 className="w-[1.125rem] h-[1.125rem]" />
           </Button>
         </div>
 
@@ -132,8 +132,8 @@ export function DecryptBox() {
             className="border-1 border-danger/60 bg-danger-dim/40 px-4 py-3 animate-slide-up"
           >
             <div className="flex items-start gap-2">
-              <AlertTriangle className="w-[18px] h-[18px] text-danger mt-1 flex-shrink-0" />
-              <pre className="text-[16px] font-mono font-bold text-danger leading-relaxed whitespace-pre-wrap break-words">
+              <AlertTriangle className="w-[1.125rem] h-[1.125rem] text-danger mt-1 flex-shrink-0" />
+              <pre className="text-base font-mono font-bold text-danger leading-relaxed whitespace-pre-wrap break-words">
                 {errorMsg}
               </pre>
             </div>
@@ -147,14 +147,14 @@ export function DecryptBox() {
               value={decryptedOutput}
               readOnly
               meta={<span>{decryptedOutput.length} chars</span>}
-              className="bg-ink-950 text-bone-50 font-bold border-signal/60 min-h-[140px] text-lg leading-relaxed"
+              className="bg-ink-950 text-bone-50 font-bold border-signal/60 min-h-[8.75rem] text-lg leading-relaxed"
             />
             <Button
               variant="secondary"
               className="w-full"
               onClick={() => copyToClipboard(decryptedOutput, "Message copied.")}
             >
-              <Copy className="w-[18px] h-[18px] mr-2" /> copy plaintext
+              <Copy className="w-[1.125rem] h-[1.125rem] mr-2" /> copy plaintext
             </Button>
           </div>
         )}

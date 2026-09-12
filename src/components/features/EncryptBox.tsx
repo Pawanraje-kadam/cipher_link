@@ -61,7 +61,7 @@ export function EncryptBox() {
       accent="signal"
       meta={
         <span className="flex items-center gap-1.5">
-          <span className="h-1.5 w-1.5 bg-signal animate-pulse-subtle" /> live
+          <span className="led bg-signal animate-pulse-subtle" /> live
         </span>
       }
     >
@@ -93,7 +93,7 @@ export function EncryptBox() {
             <button
               type="button"
               onClick={() => setShowKey((s) => !s)}
-              className="text-[15px] font-mono font-bold uppercase tracking-[0.12em] text-bone-300 hover:text-bone-50 transition-colors"
+              className="px-1.5 py-1 touch:min-h-tap text-[0.9375rem] font-mono font-bold uppercase tracking-[0.12em] text-bone-300 hover:text-bone-50 transition-colors"
             >
               {showKey ? "hide" : "show"}
             </button>
@@ -106,12 +106,12 @@ export function EncryptBox() {
             isLoading={isProcessing}
             className="flex-1"
           >
-            <Lock className="w-[18px] h-[18px] mr-2" />
+            <Lock className="w-[1.125rem] h-[1.125rem] mr-2" />
             Encrypt
-            <ArrowRight className="w-[18px] h-[18px] ml-2" />
+            <ArrowRight className="w-[1.125rem] h-[1.125rem] ml-2" />
           </Button>
           <Button variant="ghost" onClick={handleClear} aria-label="Clear">
-            <Trash2 className="w-[18px] h-[18px]" />
+            <Trash2 className="w-[1.125rem] h-[1.125rem]" />
           </Button>
         </div>
 
@@ -123,7 +123,7 @@ export function EncryptBox() {
               readOnly
               onClick={(e) => (e.target as HTMLTextAreaElement).select()}
               meta={<span>{outBytes} bytes · aes-256-gcm</span>}
-              className="bg-ink-950 text-signal font-bold border-signal/60 min-h-[140px] text-lg leading-relaxed"
+              className="bg-ink-950 text-signal font-bold border-signal/60 min-h-[8.75rem] text-lg leading-relaxed"
             />
             <Button
               variant="secondary"
@@ -132,7 +132,7 @@ export function EncryptBox() {
                 copyToClipboard(encryptedOutput, "Ciphertext copied.")
               }
             >
-              <Copy className="w-[18px] h-[18px] mr-2" /> copy ciphertext
+              <Copy className="w-[1.125rem] h-[1.125rem] mr-2" /> copy ciphertext
             </Button>
           </div>
         )}

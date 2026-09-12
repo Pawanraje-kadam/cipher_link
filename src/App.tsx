@@ -5,24 +5,24 @@ import { DecryptBox } from "./components/features/DecryptBox";
 
 function App() {
   return (
-    <div className="min-h-screen bg-ink-950 text-bone-100 relative">
+    <div className="min-h-page bg-ink-950 text-bone-100 relative">
       {/* Top status bar — thin technical strip, like an appliance or editor chrome.
           Not a nav. Not a hero badge. Just system info. */}
       <StatusBar />
 
-      <main className="max-w-6xl mx-auto px-5 md:px-8 pt-12 md:pt-20 pb-24">
+      <main className="max-w-6xl mx-auto px-5 md:px-8 pt-12 md:pt-20 pb-24 safe-x safe-b">
         {/* Asymmetric hero block — NOT centered icon -> H1 -> chips -> 2-col grid.
             Left-aligned editorial lockup with a monospace eyebrow and a
             "spec" sidebar on desktop. Deliberate, opinionated. */}
         <header className="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-8 mb-16 md:mb-20">
           <div className="md:col-span-8">
             <div className="flex items-center gap-2 mb-6">
-              <span className="inline-block h-1.5 w-1.5 bg-signal" />
-              <span className="text-[15px] font-mono font-bold uppercase tracking-[0.22em] text-signal">
+              <span className="led bg-signal" />
+              <span className="text-[0.9375rem] font-mono font-bold uppercase tracking-[0.22em] text-signal">
                 cipherlink v1.0
               </span>
               <span className="text-bone-400">/</span>
-              <span className="text-[15px] font-mono font-bold uppercase tracking-[0.22em] text-bone-300">
+              <span className="text-[0.9375rem] font-mono font-bold uppercase tracking-[0.22em] text-bone-300">
                 in-browser only
               </span>
             </div>
@@ -34,14 +34,14 @@ function App() {
               <span className="text-signal">Keep the key.</span>
             </h1>
 
-            <p className="font-sans text-bone-100 font-bold text-2xl md:text-[27px] leading-relaxed max-w-2xl mb-6">
+            <p className="font-sans text-bone-100 font-bold text-2xl md:text-[1.6875rem] leading-relaxed max-w-2xl mb-6">
               CipherLink runs AES-256-GCM in your browser using the Web Crypto
               API. Your plaintext and key are never sent to a server —
               PBKDF2-SHA256 with 600,000 iterations derives the key locally,
               and ciphertext never leaves your clipboard unless you paste it.
             </p>
 
-            <div className="flex flex-wrap gap-x-6 gap-y-2 font-mono font-bold text-[16px] uppercase tracking-[0.12em] text-bone-200">
+            <div className="flex flex-wrap gap-x-6 gap-y-2 font-mono font-bold text-base uppercase tracking-[0.12em] text-bone-200">
               <Bullet>AES-256-GCM</Bullet>
               <Bullet>PBKDF2 · 600k iter</Bullet>
               <Bullet>zero network</Bullet>
@@ -54,12 +54,12 @@ function App() {
           <aside className="md:col-span-4 md:pt-8">
             <div className="border-1 border-bone-500/40 bg-ink-900 shadow-inset">
               <div className="px-4 py-2.5 border-b-1 border-bone-500/40 bg-ink-950/60 flex items-center gap-2">
-                <span className="h-1.5 w-1.5 bg-bone-100" />
-                <span className="text-[15px] font-mono font-bold uppercase tracking-[0.18em] text-bone-100">
+                <span className="led bg-bone-100" />
+                <span className="text-[0.9375rem] font-mono font-bold uppercase tracking-[0.18em] text-bone-100">
                   cipher spec
                 </span>
               </div>
-              <dl className="p-4 text-[16px] font-mono font-bold space-y-2.5 tabular">
+              <dl className="p-4 text-base font-mono font-bold space-y-2.5 tabular">
                 <Spec k="algorithm" v="AES-GCM" />
                 <Spec k="key length" v="256 bits" />
                 <Spec k="kdf" v="PBKDF2-HMAC-SHA256" />
@@ -86,7 +86,7 @@ function App() {
 
         {/* A single quiet footer. No social icons, no "made with love" —
             just a fact: the tool doesn't phone home. */}
-        <footer className="mt-20 pt-6 border-t-1 border-bone-500/40 flex flex-col md:flex-row justify-between items-start md:items-center gap-2 font-mono font-bold text-[15px] uppercase tracking-[0.14em] text-bone-300">
+        <footer className="mt-20 pt-6 border-t-1 border-bone-500/40 flex flex-col md:flex-row justify-between items-start md:items-center gap-2 font-mono font-bold text-[0.9375rem] uppercase tracking-[0.14em] text-bone-300">
           <span>// client-side only · no cookies · no tracking</span>
           <span className="tabular">build 2026.09 · webcrypto</span>
         </footer>
@@ -102,7 +102,9 @@ function App() {
             fontWeight: 700,
             border: "1px solid rgba(219,214,203,0.45)",
             fontFamily: '"JetBrains Mono", ui-monospace, monospace',
-            fontSize: "16px",
+            fontSize: "1rem",
+            lineHeight: 1.4,
+            maxWidth: "min(26rem, 88vw)",
             textTransform: "uppercase",
             letterSpacing: "0.08em",
             borderRadius: "0",
@@ -126,7 +128,7 @@ function App() {
 function Bullet({ children }: { children: React.ReactNode }) {
   return (
     <span className="flex items-center gap-2">
-      <span className="inline-block h-1.5 w-1.5 bg-signal" />
+      <span className="led bg-signal" />
       {children}
     </span>
   );
@@ -134,9 +136,9 @@ function Bullet({ children }: { children: React.ReactNode }) {
 
 function Spec({ k, v }: { k: string; v: string }) {
   return (
-    <div className="flex justify-between gap-4">
+    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5">
       <dt className="text-bone-300 font-bold uppercase tracking-[0.1em]">{k}</dt>
-      <dd className="text-bone-50 text-right">{v}</dd>
+      <dd className="text-bone-50 text-right min-w-0 break-words">{v}</dd>
     </div>
   );
 }
@@ -150,10 +152,10 @@ function StatusBar() {
   const time = now.toISOString().replace("T", " ").slice(0, 19) + " UTC";
   return (
     <div className="border-b-1 border-bone-500/40 bg-ink-950">
-      <div className="max-w-6xl mx-auto px-5 md:px-8 h-10 flex items-center justify-between font-mono font-bold text-[15px] uppercase tracking-[0.14em] text-bone-300 tabular">
+      <div className="max-w-6xl mx-auto px-5 md:px-8 min-h-10 flex flex-wrap items-center justify-between gap-y-1 py-1 font-mono font-bold text-[0.9375rem] uppercase tracking-[0.14em] text-bone-300 tabular">
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 bg-signal" /> session: secure
+            <span className="led bg-signal" /> session: secure
           </span>
           <span className="hidden sm:inline text-bone-500">·</span>
           <span className="hidden sm:inline">context: isolated</span>

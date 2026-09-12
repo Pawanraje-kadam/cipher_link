@@ -16,21 +16,21 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
             {label && (
               <label
                 htmlFor={textareaId}
-                className="text-[15px] font-mono font-bold uppercase tracking-[0.14em] text-bone-200"
+                className="text-[0.9375rem] touch:text-base font-mono font-bold uppercase tracking-[0.14em] text-bone-200"
               >
                 {label}
               </label>
             )}
-            {meta && <div className="text-[15px] font-mono font-bold text-bone-300 tabular">{meta}</div>}
+            {meta && <div className="text-[0.9375rem] touch:text-base font-mono font-bold text-bone-300 tabular">{meta}</div>}
           </div>
         )}
         <textarea
           id={textareaId}
           ref={ref}
           className={cn(
-            "w-full min-h-[140px] bg-ink-900 text-bone-50 px-4 py-3.5",
+            "w-full min-h-[8.75rem] bg-ink-900 text-bone-50 px-4 py-3.5 touch:py-4",
             "border-1 border-bone-500/50",
-            "font-mono text-[21px] font-bold leading-relaxed tabular resize-y",
+            "font-mono text-xl font-bold leading-relaxed tabular resize-y",
             "placeholder:text-bone-400 placeholder:font-bold",
             "transition-colors duration-150",
             "focus:outline-none focus:border-signal focus:bg-ink-950",

@@ -29,16 +29,16 @@ export class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-ink-950 flex items-center justify-center p-6">
+        <div className="min-h-page bg-ink-950 flex items-center justify-center p-6 safe-x safe-b">
           <div className="w-full max-w-xl border-1 border-danger/60 bg-ink-900 shadow-hard-danger">
             <div className="px-4 py-2 bg-ink-950 border-b-1 border-danger/40 flex items-center gap-2">
-              <span className="h-1.5 w-1.5 bg-danger" />
-              <span className="text-[15px] font-mono font-bold uppercase tracking-[0.18em] text-danger">
+              <span className="led bg-danger" />
+              <span className="text-[0.9375rem] font-mono font-bold uppercase tracking-[0.18em] text-danger">
                 fatal · session halted
               </span>
             </div>
             <div className="p-6 space-y-5">
-              <pre className="font-mono text-[21px] font-bold text-bone-50 whitespace-pre-wrap break-all">
+              <pre className="font-mono text-xl font-bold text-bone-50 whitespace-pre-wrap break-all">
                 {this.state.message || "Unhandled exception."}
               </pre>
               <p className="text-bone-200 text-lg font-bold font-mono leading-relaxed">
@@ -47,7 +47,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 a fresh session.
               </p>
               <Button variant="danger" onClick={this.handleReset}>
-                <RefreshCw className="w-[18px] h-[18px] mr-2" /> Reload
+                <RefreshCw className="w-[1.125rem] h-[1.125rem] mr-2" /> Reload
               </Button>
             </div>
           </div>

@@ -16,6 +16,7 @@ No backend. No database. No cloud storage. 100% execution happens locally inside
 *   **✈️ Air-Gapped / Offline-First:** Fully compliant PWA architecture. You can load the application, disconnect from the internet completely, execute your encryption or decryption workflows, and close the tab.
 *   **💎 Cyberpunk Dashboard Aesthetic:** Built using an Apple-level minimal glassmorphism UI language. Features fluid animations, native system focus states, instant clipboard toasts, and reactive loading panels.
 *   **🧹 Anti-Telemetry & Memory Hardening:** Fields explicitly reject OS-level cloud dictionaries and keyboard predictive scrapers. Sensitive fields automatically self-sanitize and scrub themselves from React memory if the browser tab is hidden for more than 30 seconds.
+*   **🔤 Zero-Dependency Type Stack:** JetBrains Mono and IBM Plex Sans are self-hosted as subset WOFF2 (OFL 1.1, ~84KB, service-worker precached). No Google Fonts request and no CSP exception, so a blocked CDN can never downgrade the UI to system `monospace` — and the metrics, weights, hinting and `rem` scale are tuned so copy stays crisp under Windows ClearType and Android's font-size/zoom settings.
 *   **📦 Base64URL Format Compliance:** Employs a custom structure (`v1:salt:iv:ciphertext`) utilizing URL-safe encoding characters (`-` and `_` instead of `+` and `/`), ensuring platforms never corrupt or break string fragments during parsing.
 
 ---

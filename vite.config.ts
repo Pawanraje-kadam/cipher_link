@@ -12,7 +12,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,woff,ttf}'],
         cleanupOutdatedCaches: true,
         clientsClaim: true,
       },
@@ -20,6 +20,8 @@ export default defineConfig({
         name: 'CipherLink',
         short_name: 'CipherLink',
         description: 'Browser-only AES-256-GCM message encryption.',
+        // Android reads these on install: dark system bar so there is no white
+        // flash before first paint, and the splash matches the page surface.
         theme_color: '#080808',
         background_color: '#080808',
         display: 'standalone',
