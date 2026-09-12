@@ -1,0 +1,65 @@
+import React from "react";
+import { cn } from "../../lib/utils";
+
+interface PanelProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Short uppercase label shown in the corner (e.g. "ENCRYPT", "DECRYPT"). */
+  label?: string;
+  /** Optional right-side meta (e.g. status dot + text). */
+  meta?: React.ReactNode;
+  /** Accent color for the label rule. */
+  accent?: "signal" | "warn" | "danger" | "bone";
+}
+
+/**
+ * Panel — replaces the glassmorphic GlassCard.
+ * Hard inset surface with a beveled label strip in the corner, like a piece of
+ * rack-mounted gear. No blur, no soft shadow, no rounded corners.
+ */
+export function Panel({
+  children,
+  className,
+  label,
+  meta,
+  accent = "signal",
+  ...props
+}: PanelProps) {
+  const accentClass = {
+    signal: "text-signal",
+    warn: "text-warn",
+    danger: "text-danger",
+    bone: "text-bone-300",
+  }[accent];
+
+  return (
+    <div
+      className={cn(
+        "relative bg-ink-900 border-1 border-bone-500/25",
+        "shadow-inset",
+        className,
+      )}
+      {...props}
+    >
+      {/* Corner label strip — breaks the perfect rectangle, gives the panel
+          a specific identity rather than "another rounded card". */}
+      {(label || meta) && (
+        <div className="flex items-center justify-between px-4 py-2 border-b-1 border-bone-500/25 bg-ink-950/60">
+          <div className="flex items-center gap-2">
+            <span className={cn("h-1.5 w-1.5 inline-block bg-current", accentClass)} />
+            <span
+              className={cn(
+                "text-[10px] font-mono font-bold uppercase tracking-[0.22em]",
+                accentClass,
+              )}
+            >
+              {label}
+            </span>
+          </div>
+          {meta && (
+            <div className="text-[10px] font-mono text-bone-400 tabular">{meta}</div>
+          )}
+        </div>
+      )}
+      <div className="p-5">{children}</div>
+    </div>
+  );
+}

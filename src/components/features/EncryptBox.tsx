@@ -1,98 +1,142 @@
-import { useState } from 'react';
-import { Lock, Copy, Trash2 } from 'lucide-react';
-import { GlassCard } from '../ui/GlassCard';
-import { TextArea } from '../ui/TextArea';
-import { Input } from '../ui/Input';
-import { Button } from '../ui/Button';
-import { encryptMessage } from '../../crypto/engine';
-import { useClipboard } from '../../hooks/useClipboard';
-import { useAutoClear } from '../../hooks/useAutoClear';
-import toast from 'react-hot-toast';
+import { useState, useMemo } from "react";
+import { Lock, Copy, Trash2, ArrowRight } from "lucide-react";
+import { Panel } from "../ui/Panel";
+import { TextArea } from "../ui/TextArea";
+import { Input } from "../ui/Input";
+import { Button } from "../ui/Button";
+import { StrengthMeter } from "../ui/StrengthMeter";
+import { encryptMessage } from "../../crypto/engine";
+import { useClipboard } from "../../hooks/useClipboard";
+import { useAutoClear } from "../../hooks/useAutoClear";
+import toast from "react-hot-toast";
 
 export function EncryptBox() {
-  const [message, setMessage] = useState('');
-  const [password, setPassword] = useState('');
-  const [encryptedOutput, setEncryptedOutput] = useState('');
+  const [message, setMessage] = useState("");
+  const [password, setPassword] = useState("");
+  const [encryptedOutput, setEncryptedOutput] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showKey, setShowKey] = useState(false);
   const { copyToClipboard } = useClipboard();
 
   const handleClear = () => {
-    setMessage('');
-    setPassword('');
-    setEncryptedOutput('');
+    setMessage("");
+    setPassword("");
+    setEncryptedOutput("");
   };
 
   useAutoClear(handleClear, 30000);
 
   const handleEncrypt = async () => {
     if (!message || !password) {
-      toast.error('Please provide both a message and a secret key.');
+      toast.error("Both plaintext and key are required.");
+      return;
+    }
+    if (password.length < 6) {
+      toast.error("Key must be at least 6 characters.");
       return;
     }
     setIsProcessing(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 50)); 
+      // brief yield so the UI can show the processing state
+      await new Promise((r) => setTimeout(r, 40));
       const result = await encryptMessage(message, password);
       setEncryptedOutput(result);
-      toast.success('Message encrypted securely.');
-    } catch (error) {
-      toast.error('Encryption failed.');
+      toast.success("Encrypted.");
+    } catch {
+      toast.error("Encryption failed.");
     } finally {
       setIsProcessing(false);
     }
   };
 
+  const charCount = message.length;
+  const outBytes = useMemo(
+    () => (encryptedOutput ? new Blob([encryptedOutput]).size : 0),
+    [encryptedOutput],
+  );
+
   return (
-    <GlassCard className="flex flex-col space-y-4">
-      <div className="flex items-center space-x-2 text-indigo-400 mb-2">
-        <Lock className="w-5 h-5" />
-        <h2 className="text-xl font-semibold text-slate-100">Encrypt Message</h2>
-      </div>
+    <Panel
+      label="transmit · lock"
+      accent="signal"
+      meta={
+        <span className="flex items-center gap-1.5">
+          <span className="h-1.5 w-1.5 bg-signal animate-pulse-subtle" /> live
+        </span>
+      }
+    >
+      <div className="flex flex-col gap-4">
+        <TextArea
+          label="plaintext"
+          placeholder="Type or paste the message you want to lock…"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          spellCheck={false}
+          autoComplete="off"
+          autoCorrect="off"
+          meta={<span>{charCount} chars</span>}
+        />
 
-      <TextArea
-        label="Secret Message"
-        placeholder="Type the message you want to hide..."
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        spellCheck={false}
-        autoComplete="off"
-        autoCorrect="off"
-      />
-
-      <Input
-        label="Shared Secret Key"
-        type="password"
-        placeholder="e.g. ghost842"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        spellCheck={false}
-        autoComplete="new-password"
-      />
-      <p className="text-xs text-slate-500">Use the same secret key when decrypting the message later.</p>
-
-      <Button onClick={handleEncrypt} isLoading={isProcessing} className="w-full">
-        Encrypt
-      </Button>
-
-      {encryptedOutput && (
-        <div className="mt-4 space-y-2 animate-fade-in">
-          <TextArea
-            label="Encrypted Output"
-            value={encryptedOutput}
-            readOnly
-            className="font-mono text-xs text-indigo-200 bg-indigo-950/30 border-indigo-500/30 min-h-[100px]"
-            onClick={(e) => (e.target as HTMLTextAreaElement).select()}
+        <div>
+          <Input
+            label="shared key"
+            type={showKey ? "text" : "password"}
+            placeholder="Passphrase — longer = stronger"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            spellCheck={false}
+            autoComplete="new-password"
+            hint="Same key required on the other side. Never send it with the ciphertext."
           />
-          <div className="flex space-x-2">
-            <Button variant="secondary" className="flex-1" onClick={() => copyToClipboard(encryptedOutput, 'Encrypted message copied!')}>
-              <Copy className="w-4 h-4 mr-2" /> Copy Output
-            </Button>
-            <Button variant="ghost" onClick={handleClear} aria-label="Clear all fields">
-              <Trash2 className="w-4 h-4 text-rose-400 hover:text-rose-300" />
-            </Button>
+          <div className="mt-2 flex items-center justify-between gap-3">
+            <StrengthMeter password={password} />
+            <button
+              type="button"
+              onClick={() => setShowKey((s) => !s)}
+              className="text-[10px] font-mono uppercase tracking-widest text-bone-400 hover:text-bone-100 transition-colors"
+            >
+              {showKey ? "hide" : "show"}
+            </button>
           </div>
         </div>
-      )}
-    </GlassCard>
+
+        <div className="flex gap-2 pt-1">
+          <Button
+            onClick={handleEncrypt}
+            isLoading={isProcessing}
+            className="flex-1"
+          >
+            <Lock className="w-3.5 h-3.5 mr-2" />
+            Encrypt
+            <ArrowRight className="w-3.5 h-3.5 ml-2" />
+          </Button>
+          <Button variant="ghost" onClick={handleClear} aria-label="Clear">
+            <Trash2 className="w-4 h-4" />
+          </Button>
+        </div>
+
+        {encryptedOutput && (
+          <div className="space-y-3 animate-slide-up border-t-1 border-bone-500/25 pt-4">
+            <TextArea
+              label="ciphertext"
+              value={encryptedOutput}
+              readOnly
+              onClick={(e) => (e.target as HTMLTextAreaElement).select()}
+              meta={<span>{outBytes} bytes · aes-256-gcm</span>}
+              className="bg-ink-950 text-signal border-signal/40 min-h-[110px] text-xs leading-relaxed"
+            />
+            <Button
+              variant="secondary"
+              className="w-full"
+              onClick={() =>
+                copyToClipboard(encryptedOutput, "Ciphertext copied.")
+              }
+            >
+              <Copy className="w-3.5 h-3.5 mr-2" /> copy ciphertext
+            </Button>
+          </div>
+        )}
+      </div>
+    </Panel>
   );
 }

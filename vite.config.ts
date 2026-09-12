@@ -3,6 +3,9 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+  server: {
+    allowedHosts: true,
+  },
   plugins: [
     react(),
     VitePWA({
@@ -16,9 +19,9 @@ export default defineConfig({
       manifest: {
         name: 'CipherLink',
         short_name: 'CipherLink',
-        description: 'Zero-knowledge, browser-only message encryption.',
-        theme_color: '#020617',
-        background_color: '#020617',
+        description: 'Browser-only AES-256-GCM message encryption.',
+        theme_color: '#080808',
+        background_color: '#080808',
         display: 'standalone',
         orientation: 'portrait'
       }

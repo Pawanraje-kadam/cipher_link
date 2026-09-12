@@ -1,40 +1,56 @@
-import { Component, type ErrorInfo, type ReactNode } from 'react';
-import { ShieldAlert, RefreshCw } from 'lucide-react';
-import { Button } from './Button';
+import { Component, type ErrorInfo, type ReactNode } from "react";
+import { RefreshCw } from "lucide-react";
+import { Button } from "./Button";
 
-interface Props { children: ReactNode; }
-interface State { hasError: boolean; }
+interface Props {
+  children: ReactNode;
+}
+interface State {
+  hasError: boolean;
+  message: string;
+}
 
 export class ErrorBoundary extends Component<Props, State> {
-  public state: State = { hasError: false };
+  public state: State = { hasError: false, message: "" };
 
-  public static getDerivedStateFromError(_: Error): State {
-    return { hasError: true };
+  public static getDerivedStateFromError(err: Error): State {
+    return { hasError: true, message: err.message };
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Uncaught UI Error:', error, errorInfo);
+    console.error("[cipherlink] fatal:", error, errorInfo);
   }
 
   private handleReset = () => {
-    this.setState({ hasError: false });
+    this.setState({ hasError: false, message: "" });
     window.location.reload();
   };
 
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-[400px] flex flex-col items-center justify-center p-8 text-center space-y-6">
-          <div className="p-4 bg-rose-500/10 rounded-full">
-            <ShieldAlert className="w-12 h-12 text-rose-500" />
+        <div className="min-h-screen bg-ink-950 flex items-center justify-center p-6">
+          <div className="w-full max-w-xl border-1 border-danger/60 bg-ink-900 shadow-hard-danger">
+            <div className="px-4 py-2 bg-ink-950 border-b-1 border-danger/40 flex items-center gap-2">
+              <span className="h-1.5 w-1.5 bg-danger" />
+              <span className="text-[10px] font-mono font-bold uppercase tracking-[0.22em] text-danger">
+                fatal · session halted
+              </span>
+            </div>
+            <div className="p-6 space-y-5">
+              <pre className="font-mono text-sm text-bone-200 whitespace-pre-wrap break-all">
+                {this.state.message || "Unhandled exception."}
+              </pre>
+              <p className="text-bone-400 text-xs font-mono leading-relaxed">
+                To protect your data, execution has stopped. Nothing has been
+                transmitted — all state lives in this tab only. Reload to start
+                a fresh session.
+              </p>
+              <Button variant="danger" onClick={this.handleReset}>
+                <RefreshCw className="w-3.5 h-3.5 mr-2" /> Reload
+              </Button>
+            </div>
           </div>
-          <div className="space-y-2">
-            <h2 className="text-2xl font-bold text-slate-100">Session Terminated</h2>
-            <p className="text-slate-400 max-w-md">A critical error occurred. To protect your data, the application has halted execution.</p>
-          </div>
-          <Button onClick={this.handleReset} className="bg-rose-600 hover:bg-rose-700 border-rose-500">
-            <RefreshCw className="w-4 h-4 mr-2" /> Reload Securely
-          </Button>
         </div>
       );
     }
