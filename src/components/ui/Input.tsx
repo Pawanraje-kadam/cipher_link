@@ -1,28 +1,45 @@
-import React from 'react';
-import { cn } from '../../lib/utils';
+import React from "react";
+import { cn } from "../../lib/utils";
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
+  hint?: string;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, label, id, ...props }, ref) => {
+  ({ className, type, label, hint, id, ...props }, ref) => {
     const inputId = id || React.useId();
     return (
-      <div className="space-y-1.5 w-full">
-        {label && <label htmlFor={inputId} className="text-sm font-medium text-slate-300">{label}</label>}
+      <div className="w-full">
+        {label && (
+          <label
+            htmlFor={inputId}
+            className="block text-[10px] font-mono font-semibold uppercase tracking-[0.18em] text-bone-400 mb-1.5"
+          >
+            {label}
+          </label>
+        )}
         <input
           id={inputId}
           type={type}
           ref={ref}
           className={cn(
-            "flex w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 transition-all duration-200 shadow-inner focus:border-indigo-500/50 focus:bg-black/40 focus:outline-none focus:ring-1 focus:ring-indigo-500/50 disabled:cursor-not-allowed disabled:opacity-50 font-mono",
-            className
+            // Inset terminal field. No rounded corners, no blue focus glow.
+            "w-full bg-ink-900 text-bone-100 px-3 py-2.5",
+            "border-1 border-bone-500/30",
+            "font-mono text-sm tabular",
+            "placeholder:text-bone-500 placeholder:font-normal",
+            "transition-colors duration-150",
+            "focus:outline-none focus:border-signal focus:bg-ink-950",
+            "disabled:opacity-40 disabled:cursor-not-allowed",
+            "selection:bg-signal/30",
+            className,
           )}
           {...props}
         />
+        {hint && <p className="mt-1 text-[10px] font-mono text-bone-400">{hint}</p>}
       </div>
     );
-  }
+  },
 );
-Input.displayName = 'Input';
+Input.displayName = "Input";

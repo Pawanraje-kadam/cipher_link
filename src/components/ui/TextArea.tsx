@@ -1,27 +1,47 @@
-import React from 'react';
-import { cn } from '../../lib/utils';
+import React from "react";
+import { cn } from "../../lib/utils";
 
 export interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
+  meta?: React.ReactNode;
 }
 
 export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ className, label, id, ...props }, ref) => {
+  ({ className, label, meta, id, ...props }, ref) => {
     const textareaId = id || React.useId();
     return (
-      <div className="space-y-1.5 w-full">
-        {label && <label htmlFor={textareaId} className="flex justify-between text-sm font-medium text-slate-300"><span>{label}</span></label>}
+      <div className="w-full">
+        {(label || meta) && (
+          <div className="flex items-baseline justify-between mb-1.5">
+            {label && (
+              <label
+                htmlFor={textareaId}
+                className="text-[10px] font-mono font-semibold uppercase tracking-[0.18em] text-bone-400"
+              >
+                {label}
+              </label>
+            )}
+            {meta && <div className="text-[10px] font-mono text-bone-500 tabular">{meta}</div>}
+          </div>
+        )}
         <textarea
           id={textareaId}
           ref={ref}
           className={cn(
-            "flex min-h-[120px] w-full rounded-lg border border-white/10 bg-black/20 px-3 py-3 text-sm text-slate-100 placeholder:text-slate-500 transition-all duration-200 shadow-inner resize-y focus:border-indigo-500/50 focus:bg-black/40 focus:outline-none focus:ring-1 focus:ring-indigo-500/50 disabled:cursor-not-allowed disabled:opacity-50 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/10 hover:scrollbar-thumb-white/20",
-            className
+            "w-full min-h-[120px] bg-ink-900 text-bone-100 px-3 py-3",
+            "border-1 border-bone-500/30",
+            "font-mono text-sm leading-relaxed tabular resize-y",
+            "placeholder:text-bone-500",
+            "transition-colors duration-150",
+            "focus:outline-none focus:border-signal focus:bg-ink-950",
+            "disabled:opacity-40 disabled:cursor-not-allowed",
+            "selection:bg-signal/30",
+            className,
           )}
           {...props}
         />
       </div>
     );
-  }
+  },
 );
-TextArea.displayName = 'TextArea';
+TextArea.displayName = "TextArea";

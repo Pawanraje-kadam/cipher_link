@@ -1,18 +1,24 @@
-import React from 'react';
-import { cn } from '../../lib/utils';
-import { Loader2 } from 'lucide-react';
+import React from "react";
+import { cn } from "../../lib/utils";
+import { Loader2 } from "lucide-react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'ghost';
+  variant?: "primary" | "secondary" | "ghost" | "danger";
   isLoading?: boolean;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = 'primary', isLoading, children, disabled, ...props }, ref) => {
+  ({ className, variant = "primary", isLoading, children, disabled, ...props }, ref) => {
     const variants = {
-      primary: "bg-indigo-600 text-white hover:bg-indigo-700 shadow-[0_0_15px_rgba(79,70,229,0.3)] border border-indigo-500/50 active:scale-[0.98]",
-      secondary: "bg-white/10 text-slate-200 hover:bg-white/15 border border-white/10 active:scale-[0.98]",
-      ghost: "bg-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5 active:scale-[0.98]",
+      // Primary: hard black + signal border + hard shadow. No gradient, no glow.
+      primary:
+        "bg-bone-50 text-ink-950 border-1 border-bone-50 hover:bg-bone-100 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none shadow-hard",
+      secondary:
+        "bg-ink-800 text-bone-100 border-1 border-bone-500/40 hover:border-bone-200/60 hover:bg-ink-700 active:bg-ink-900",
+      ghost:
+        "bg-transparent text-bone-300 hover:text-bone-100 hover:bg-ink-800 border-1 border-transparent",
+      danger:
+        "bg-danger text-ink-950 border-1 border-danger hover:brightness-110 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none shadow-hard-danger",
     };
 
     return (
@@ -20,16 +26,22 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled || isLoading}
         className={cn(
-          "inline-flex items-center justify-center rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:ring-offset-2 focus:ring-offset-background disabled:opacity-50 disabled:cursor-not-allowed",
+          // Square (sharp) corners. Uppercase mono letters to read as "control panel",
+          // not "saas button". Custom physical-feeling press (translate+shadow drop).
+          "inline-flex items-center justify-center px-4 py-2.5",
+          "text-xs font-mono font-semibold uppercase tracking-widest",
+          "transition-all duration-150",
+          "focus:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950",
+          "disabled:opacity-40 disabled:cursor-not-allowed disabled:active:translate-x-0 disabled:active:translate-y-0",
           variants[variant],
-          className
+          className,
         )}
         {...props}
       >
-        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        {isLoading && <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />}
         {children}
       </button>
     );
-  }
+  },
 );
-Button.displayName = 'Button';
+Button.displayName = "Button";

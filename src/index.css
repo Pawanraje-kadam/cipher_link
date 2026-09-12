@@ -3,7 +3,102 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
   body {
-    @apply bg-background text-slate-200 antialiased min-h-screen selection:bg-indigo-500/30;
+    @apply bg-ink-950 text-bone-100 font-mono antialiased min-h-screen;
+    font-feature-settings: "ss01", "cv02", "cv03", "cv04", "cv11"; /* JetBrains Mono stylistic sets */
+  }
+
+  /* Subtract the "digital perfect" look with a faint grain overlay.
+     Procedural SVG noise — zero extra network cost. Kept very faint (3%). */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* One horizontal scanline sweep — a deliberate, slow motion that reads
+     "terminal / cipher machine", not "glowing gradient blob". */
+  body::after {
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: 120px;
+    pointer-events: none;
+    z-index: 99;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(52, 211, 153, 0.025) 48%,
+      rgba(52, 211, 153, 0.05) 50%,
+      rgba(52, 211, 153, 0.025) 52%,
+      transparent 100%
+    );
+    animation: scanline 10s linear infinite;
+  }
+
+  ::selection {
+    background: rgba(52, 211, 153, 0.35);
+    color: #f5f3ee;
+  }
+
+  /* Remove AI-slop focus ring; replace with hard offset square outline */
+  :focus-visible {
+    outline: 2px solid #34d399;
+    outline-offset: 2px;
+  }
+
+  /* Scrollbar: sharp, mono-style */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #080808;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1c1c1c;
+    border: 1px solid #3a3833;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3a3833;
+  }
+}
+
+@layer components {
+  /* A tabular-number helper for cipher/metric values */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+}
+
+/* Respect users who want reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  body::after {
+    display: none;
   }
 }
