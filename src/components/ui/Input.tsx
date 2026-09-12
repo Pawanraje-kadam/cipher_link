@@ -14,7 +14,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-[10px] font-mono font-semibold uppercase tracking-[0.18em] text-bone-400 mb-1.5"
+            className="block t-meta font-mono font-bold uppercase tracking-[0.14em] text-bone-200 mb-2"
           >
             {label}
           </label>
@@ -25,19 +25,19 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           className={cn(
             // Inset terminal field. No rounded corners, no blue focus glow.
-            "w-full bg-ink-900 text-bone-100 px-3 py-2.5",
-            "border-1 border-bone-500/30",
-            "font-mono text-sm tabular",
-            "placeholder:text-bone-500 placeholder:font-normal",
+            "w-full bg-ink-900 text-bone-50 px-4 py-3",
+            "border-1 border-bone-500/50",
+            "font-mono t-field font-bold tabular",
+            "placeholder:text-bone-400 placeholder:font-bold",
             "transition-colors duration-150",
             "focus:outline-none focus:border-signal focus:bg-ink-950",
-            "disabled:opacity-40 disabled:cursor-not-allowed",
+            "disabled:opacity-60 disabled:cursor-not-allowed",
             "selection:bg-signal/30",
             className,
           )}
           {...props}
         />
-        {hint && <p className="mt-1 text-[10px] font-mono text-bone-400">{hint}</p>}
+        {hint && <p className="mt-1.5 t-meta font-mono font-bold leading-snug text-bone-300">{hint}</p>}
       </div>
     );
   },

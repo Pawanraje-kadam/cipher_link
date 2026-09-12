@@ -61,11 +61,11 @@ export function EncryptBox() {
       accent="signal"
       meta={
         <span className="flex items-center gap-1.5">
-          <span className="h-1.5 w-1.5 bg-signal animate-pulse-subtle" /> live
+          <span className="led bg-signal animate-pulse-subtle" /> live
         </span>
       }
     >
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-5">
         <TextArea
           label="plaintext"
           placeholder="Type or paste the message you want to lock…"
@@ -88,42 +88,42 @@ export function EncryptBox() {
             autoComplete="new-password"
             hint="Same key required on the other side. Never send it with the ciphertext."
           />
-          <div className="mt-2 flex items-center justify-between gap-3">
+          <div className="mt-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
             <StrengthMeter password={password} />
             <button
               type="button"
               onClick={() => setShowKey((s) => !s)}
-              className="text-[10px] font-mono uppercase tracking-widest text-bone-400 hover:text-bone-100 transition-colors"
+              className="px-1.5 py-1 touch:min-h-tap t-meta font-mono font-bold uppercase tracking-[0.12em] text-bone-300 hover:text-bone-50 transition-colors"
             >
               {showKey ? "hide" : "show"}
             </button>
           </div>
         </div>
 
-        <div className="flex gap-2 pt-1">
+        <div className="flex flex-wrap gap-2 pt-1">
           <Button
             onClick={handleEncrypt}
             isLoading={isProcessing}
             className="flex-1"
           >
-            <Lock className="w-3.5 h-3.5 mr-2" />
+            <Lock className="ico mr-2" />
             Encrypt
-            <ArrowRight className="w-3.5 h-3.5 ml-2" />
+            <ArrowRight className="ico ml-2" />
           </Button>
           <Button variant="ghost" onClick={handleClear} aria-label="Clear">
-            <Trash2 className="w-4 h-4" />
+            <Trash2 className="ico" />
           </Button>
         </div>
 
         {encryptedOutput && (
-          <div className="space-y-3 animate-slide-up border-t-1 border-bone-500/25 pt-4">
+          <div className="space-y-4 animate-slide-up border-t-1 border-bone-500/40 pt-5">
             <TextArea
               label="ciphertext"
               value={encryptedOutput}
               readOnly
               onClick={(e) => (e.target as HTMLTextAreaElement).select()}
               meta={<span>{outBytes} bytes · aes-256-gcm</span>}
-              className="bg-ink-950 text-signal border-signal/40 min-h-[110px] text-xs leading-relaxed"
+              className="bg-ink-950 text-signal font-bold border-signal/60 min-h-[8.75rem] t-ui leading-relaxed"
             />
             <Button
               variant="secondary"
@@ -132,7 +132,7 @@ export function EncryptBox() {
                 copyToClipboard(encryptedOutput, "Ciphertext copied.")
               }
             >
-              <Copy className="w-3.5 h-3.5 mr-2" /> copy ciphertext
+              <Copy className="ico mr-2" /> copy ciphertext
             </Button>
           </div>
         )}

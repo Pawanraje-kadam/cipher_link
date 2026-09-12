@@ -22,12 +22,12 @@ export function StrengthMeter({ password }: StrengthMeterProps) {
 
   return (
     <div className="flex items-center gap-3">
-      <div className="flex gap-1 flex-1">
+      <div className="flex gap-1 flex-1 min-w-0">
         {segments.map((i) => (
           <div
             key={i}
             className={cn(
-              "h-1 flex-1 border-1 border-bone-500/20",
+              "h-1.5 flex-1 border-1 border-bone-500/40",
               i < score ? colors[score] : "bg-ink-950",
             )}
           />
@@ -35,8 +35,8 @@ export function StrengthMeter({ password }: StrengthMeterProps) {
       </div>
       <span
         className={cn(
-          "text-[10px] font-mono uppercase tracking-widest tabular w-20 text-right",
-          score === 0 && "text-bone-500",
+          "t-meta font-mono font-bold uppercase tracking-[0.12em] tabular min-w-[6em] shrink-0 whitespace-nowrap text-right",
+          score === 0 && "text-bone-300",
           score === 1 && "text-danger",
           score === 2 && "text-warn",
           score >= 3 && "text-signal",

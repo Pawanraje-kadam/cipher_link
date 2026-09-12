@@ -27,13 +27,13 @@ export function Panel({
     signal: "text-signal",
     warn: "text-warn",
     danger: "text-danger",
-    bone: "text-bone-300",
+    bone: "text-bone-200",
   }[accent];
 
   return (
     <div
       className={cn(
-        "relative bg-ink-900 border-1 border-bone-500/25",
+        "relative bg-ink-900 border-1 border-bone-500/40",
         "shadow-inset",
         className,
       )}
@@ -42,12 +42,12 @@ export function Panel({
       {/* Corner label strip — breaks the perfect rectangle, gives the panel
           a specific identity rather than "another rounded card". */}
       {(label || meta) && (
-        <div className="flex items-center justify-between px-4 py-2 border-b-1 border-bone-500/25 bg-ink-950/60">
-          <div className="flex items-center gap-2">
-            <span className={cn("h-1.5 w-1.5 inline-block bg-current", accentClass)} />
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-4 py-2.5 border-b-1 border-bone-500/40 bg-ink-950/60">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className={cn("led bg-current", accentClass)} />
             <span
               className={cn(
-                "text-[10px] font-mono font-bold uppercase tracking-[0.22em]",
+                "t-meta font-mono font-bold uppercase tracking-[0.18em]",
                 accentClass,
               )}
             >
@@ -55,11 +55,11 @@ export function Panel({
             </span>
           </div>
           {meta && (
-            <div className="text-[10px] font-mono text-bone-400 tabular">{meta}</div>
+            <div className="t-meta font-mono font-bold text-bone-300 tabular">{meta}</div>
           )}
         </div>
       )}
-      <div className="p-5">{children}</div>
+      <div className="p-6">{children}</div>
     </div>
   );
 }
