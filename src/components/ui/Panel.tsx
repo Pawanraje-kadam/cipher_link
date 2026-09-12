@@ -47,7 +47,7 @@ export function Panel({
             <span className={cn("led bg-current", accentClass)} />
             <span
               className={cn(
-                "text-[0.9375rem] font-mono font-bold uppercase tracking-[0.18em]",
+                "t-meta font-mono font-bold uppercase tracking-[0.18em]",
                 accentClass,
               )}
             >
@@ -55,7 +55,7 @@ export function Panel({
             </span>
           </div>
           {meta && (
-            <div className="text-[0.9375rem] touch:text-base font-mono font-bold text-bone-300 tabular">{meta}</div>
+            <div className="t-meta font-mono font-bold text-bone-300 tabular">{meta}</div>
           )}
         </div>
       )}

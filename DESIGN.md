@@ -37,12 +37,28 @@ gear, CRT terminals, Vercel's mono black, xAI's brutalist monospace, and 90s PGP
   outputs, toasts, status strip, footer — is `font-bold`. Nothing renders at 400.
   A real 700 face ships so Android never has to *synthesize* bold (a smeared 400 face
   is the ugliest text state on phones).
-- **Type scale, all in `rem`.** Micro/labels `0.9375rem` (15px), spec rows + bullets +
-  error copy `1rem`, buttons + outputs `1.125rem` (18px), field + decrypted text
-  `1.3125rem` (21px), body copy `1.5rem` → `1.6875rem`, hero display untouched
-  (`3rem/4.5rem/6rem`) — it was never the legibility problem. `px` is banned for type:
-  Android's *Settings ▸ Display ▸ Font size* and Windows browser zoom both scale the
-  root font size, and pixel-authored type silently ignores them.
+- **One fluid scale, seven tokens, zero px.** `--t-micro` (14→16px, status strip),
+  `--t-meta` (15→17, labels / eyebrow / panel meta), `--t-body` (16→18, spec rows,
+  bullets, hints, errors), `--t-ui` (17→19, buttons + outputs), `--t-field` (17→21,
+  inputs + textareas), `--t-lead` (17→27, hero copy), `--t-display` (28→76, h1). Each is
+  a `clamp(rem, rem + vw, rem)` consumed through `.t-*` classes, declared once in
+  `src/index.css` — components name a *role*, never a size.
+  - `rem` floors/ceilings so Android's *Settings ▸ Display ▸ Font size* and Windows
+    browser zoom still multiply the whole UI; `px` for type is banned because it ignores
+    both.
+  - The bounds are arithmetic, not taste: JetBrains Mono advances 0.6em and `body` adds
+    0.01em, so a line of *n* characters is `n × 0.61em`. `--t-display`'s ceiling is
+    pinned by the widest column the headline occupies (8/12 of `max-w-6xl` ≈ 685px):
+    `LOCK A MESSAGE.` = 15 chars × 0.585em ⇒ 76px. The old `text-5xl md:text-7xl
+    lg:text-8xl` broke at *both* ends — 48px overflowed a 375px phone, 96px wrapped the
+    two-line lockup into three at `lg`.
+  - `.ico` sizes every inline icon at `1em`, so glyph and copy can never drift apart
+    when the OS scale changes.
+- **No size is tied to a breakpoint.** `md:`/`lg:` type steps made copy jump and left
+  485px and 350px columns holding 21–27px text. `lg:` now only chooses *structure* —
+  the 12-column hero and the two-up panels, because a 350px column genuinely is too
+  narrow for a 21px mono field. Everything else is fluid, with `flex-wrap` + `min-w-0`
+  on every row that could otherwise clip.
 - Because size went up, tracking came **down** so uppercase mono doesn't turn into
   picket fence: `[0.3em]→[0.22em]` for eyebrows, `[0.22em]→[0.18em]` for panel strips,
   `[0.18em]→[0.14em]` for field labels, `tracking-widest→[0.12em]` for inline controls.
@@ -65,7 +81,8 @@ offline — and a blocked CDN can no longer quietly downgrade the UI to system `
 | Platform | What it does to the text | What the engine answers with |
 |---|---|---|
 | **Windows** — ClearType / DirectWrite | Light-on-dark renders **thinner** than on any other platform; subpixel AA is dropped to grayscale for glyphs on a composited layer or during an opacity animation, so text fades then snaps back | No blend modes / filters above content (grain lives in the page *background*); reveal animations translate only; 700 weight + `0.01em` tracking; `color-scheme: dark` and autofill pinning so Chrome/Edge never paints a white field; `forced-colors` restores real borders |
-| **Android** — FreeType, grayscale AA only | The system **Font size** slider and page zoom only move `rem`; no subpixel AA, so small text is fragile; bold gets synthesized when a family has no 700 face; <44dp targets are missable; `vh` breaks when the URL bar collapses | `rem` throughout; real 700 face; `touch:` variants (labels → `1rem`, `min-h-tap` 44px, roomier fields); `.min-h-page` = `100dvh` with `vh` fallback; `env(safe-area-inset-*)` gutters; `touch-action: manipulation` + transparent tap highlight; `text-size-adjust: 100%` and `viewport-fit=cover` with **no** `maximum-scale` — never block zoom to stop iOS autofit, size the field at ≥1rem instead |
+| **Android** — FreeType, grayscale AA only | The system **Font size** slider and page zoom only move `rem`; no subpixel AA, so small text is fragile; bold gets synthesized when a family has no 700 face; <44dp targets are missable; `vh` breaks when the URL bar collapses | `rem` throughout; real 700 face; `touch:` variants (labels → `1rem`, `min-h-tap` 44px, roomier fields); `.min-h-page` = `100dvh` with `vh` fallback; `env(safe-area-inset-*)` gutters (`.safe-t` on the status strip, `.safe-x` / `.safe-b` on
+  the page body); `touch-action: manipulation` + transparent tap highlight; `text-size-adjust: 100%` and `viewport-fit=cover` with **no** `maximum-scale` — never block zoom to stop iOS autofit, size the field at ≥1rem instead |
 
 Fallback chain, metric-matched so the swap reflows nothing: `JetBrains Mono` →
 `"Cipher Mono Fallback"` (`local()` Cascadia Mono / Consolas / Roboto Mono / DejaVu /

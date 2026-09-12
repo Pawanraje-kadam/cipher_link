@@ -14,7 +14,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-[0.9375rem] touch:text-base font-mono font-bold uppercase tracking-[0.14em] text-bone-200 mb-2"
+            className="block t-meta font-mono font-bold uppercase tracking-[0.14em] text-bone-200 mb-2"
           >
             {label}
           </label>
@@ -27,7 +27,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             // Inset terminal field. No rounded corners, no blue focus glow.
             "w-full bg-ink-900 text-bone-50 px-4 py-3",
             "border-1 border-bone-500/50",
-            "font-mono text-xl font-bold tabular",
+            "font-mono t-field font-bold tabular",
             "placeholder:text-bone-400 placeholder:font-bold",
             "transition-colors duration-150",
             "focus:outline-none focus:border-signal focus:bg-ink-950",
@@ -37,7 +37,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           )}
           {...props}
         />
-        {hint && <p className="mt-1.5 text-[0.9375rem] touch:text-base font-mono font-bold leading-snug text-bone-300">{hint}</p>}
+        {hint && <p className="mt-1.5 t-meta font-mono font-bold leading-snug text-bone-300">{hint}</p>}
       </div>
     );
   },

@@ -29,7 +29,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           // Square (sharp) corners. Uppercase mono letters to read as "control panel",
           // not "saas button". Custom physical-feeling press (translate+shadow drop).
           "inline-flex items-center justify-center min-h-tap px-5 py-3",
-          "text-lg font-mono font-bold uppercase tracking-[0.12em]",
+          "t-ui font-mono font-bold uppercase tracking-[0.12em]",
           "transition-all duration-150",
           "focus:outline-none focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950",
           "disabled:opacity-60 disabled:cursor-not-allowed disabled:active:translate-x-0 disabled:active:translate-y-0",
@@ -38,7 +38,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         {...props}
       >
-        {isLoading && <Loader2 className="mr-2 h-[1.125rem] w-[1.125rem] animate-spin" />}
+        {isLoading && <Loader2 className="ico mr-2 animate-spin" />}
         {children}
       </button>
     );

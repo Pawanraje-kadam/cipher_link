@@ -74,18 +74,10 @@ export default {
           "sans-serif",
         ],
       },
-      // rem everywhere on purpose. Android's Settings ▸ Display ▸ Font size and
-      // Windows browser zoom both scale the root font size; px-authored type
-      // ignores them and leaves the UI frozen at the designer's preference.
-      fontSize: {
-        xs: ["0.75rem", { lineHeight: "1.35" }],
-        sm: ["0.875rem", { lineHeight: "1.4" }],
-        base: ["1rem", { lineHeight: "1.5" }],
-        lg: ["1.125rem", { lineHeight: "1.5" }],
-        xl: ["1.3125rem", { lineHeight: "1.45" }], // field + output text
-        "2xl": ["1.5rem", { lineHeight: "1.4" }],
-        "3xl": ["1.875rem", { lineHeight: "1.25" }],
-      },
+      // Sizes come from the fluid `--t-*` scale in src/index.css (.t-micro … .t-display),
+      // never from px — px type ignores Android's Font-size setting and Windows zoom,
+      // and a fixed px headline is what ran off the page on a phone.
+      // rem-based leading stays unitless so line boxes scale with the text.
       spacing: {
         // Slightly odd step to break the 4/8/16/24/32 "default tailwind" look.
         18: "4.5rem",

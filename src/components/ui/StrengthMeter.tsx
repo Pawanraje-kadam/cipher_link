@@ -35,7 +35,7 @@ export function StrengthMeter({ password }: StrengthMeterProps) {
       </div>
       <span
         className={cn(
-          "text-[0.9375rem] font-mono font-bold uppercase tracking-[0.12em] tabular min-w-[7rem] shrink-0 whitespace-nowrap text-right",
+          "t-meta font-mono font-bold uppercase tracking-[0.12em] tabular min-w-[6em] shrink-0 whitespace-nowrap text-right",
           score === 0 && "text-bone-300",
           score === 1 && "text-danger",
           score === 2 && "text-warn",
