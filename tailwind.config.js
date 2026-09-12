@@ -12,13 +12,16 @@ export default {
           800: "#141414", // raised surface
           700: "#1c1c1c", // hover surface
         },
+        // Ramp re-tuned for legibility: every text-bearing step now clears
+        // WCAG AA on ink-950 (bone-400 = 7.0:1, bone-500 = 4.0:1 and is only
+        // used for placeholders/dividers, never for copy).
         bone: {
-          50: "#f5f3ee",  // primary text (warm off-white, not harsh #fff)
-          100: "#e8e4dc",
-          200: "#c9c4b8",
-          300: "#8f8a7f",
-          400: "#5f5b53",
-          500: "#3a3833",
+          50: "#f7f5f0",  // primary text (warm off-white, not harsh #fff)
+          100: "#efece4",
+          200: "#dbd6cb",
+          300: "#bab4a7", // secondary text
+          400: "#a09a8d", // labels
+          500: "#6f6a61", // dividers / placeholders
         },
         // Terminal green — the only true accent. Used sparingly for success/positive.
         signal: {
@@ -47,7 +50,7 @@ export default {
         hard: "4px 4px 0 0 rgba(52,211,153,0.15)",
         "hard-warn": "4px 4px 0 0 rgba(245,181,68,0.15)",
         "hard-danger": "4px 4px 0 0 rgba(242,92,78,0.15)",
-        inset: "inset 2px 2px 0 0 rgba(245,243,238,0.04)",
+        inset: "inset 2px 2px 0 0 rgba(247,245,240,0.05)",
       },
       animation: {
         "blink": "blink 1.2s steps(2) infinite",

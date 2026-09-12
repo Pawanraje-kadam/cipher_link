@@ -9,25 +9,27 @@
   }
 
   html {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    /* NOTE: deliberately NOT `-webkit-font-smoothing: antialiased` — that
+       thins glyph strokes on dark backgrounds and was a main reason the UI
+       read as "faded". Default (subpixel) rendering keeps the weight. */
     text-rendering: optimizeLegibility;
   }
 
   body {
-    @apply bg-ink-950 text-bone-100 font-mono antialiased min-h-screen;
+    @apply bg-ink-950 text-bone-100 font-mono min-h-screen;
     font-feature-settings: "ss01", "cv02", "cv03", "cv04", "cv11"; /* JetBrains Mono stylistic sets */
   }
 
   /* Subtract the "digital perfect" look with a faint grain overlay.
-     Procedural SVG noise — zero extra network cost. Kept very faint (3%). */
+     Procedural SVG noise — zero extra network cost. Kept extremely faint
+     (2%) so it never washes out small text. */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 100;
-    opacity: 0.035;
+    opacity: 0.02;
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   }
@@ -55,7 +57,7 @@
 
   ::selection {
     background: rgba(52, 211, 153, 0.35);
-    color: #f5f3ee;
+    color: #f7f5f0;
   }
 
   /* Remove AI-slop focus ring; replace with hard offset square outline */
@@ -74,10 +76,10 @@
   }
   ::-webkit-scrollbar-thumb {
     background: #1c1c1c;
-    border: 1px solid #3a3833;
+    border: 1px solid #55504a;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #3a3833;
+    background: #6f6a61;
   }
 }
 

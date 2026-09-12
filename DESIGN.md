@@ -32,8 +32,20 @@ gear, CRT terminals, Vercel's mono black, xAI's brutalist monospace, and 90s PGP
   *cipher/terminal* to the target audience.
 - **Body copy (only where long-form is needed):** IBM Plex Sans.
 - Headlines are **uppercase**, tight tracking, `leading-[0.9]`, no gradient.
-- Labels are `10px`, uppercase, `tracking-[0.18em]–[0.3em]`, muted bone tone.
+- **Weight floor: 700.** Every piece of copy — labels, metadata, hints, inputs,
+  outputs, toasts, status strip, footer — is `font-bold`. Nothing renders at 400.
+- **Type scale (legibility pass, ~+50% on the old sizes).** Labels/eyebrows/metadata
+  `15px`, spec rows + bullets + error copy `16px`, buttons `18px`, outputs and decrypted
+  text `18–21px`, body copy `24px` (mobile) / `27px` (desktop), hero display unchanged
+  (`48/72/96px`) — it was never the legibility problem.
+- Because size went up, tracking came **down** so uppercase mono doesn't turn into
+  picket fence: `[0.3em]→[0.22em]` for eyebrows, `[0.22em]→[0.18em]` for panel strips,
+  `[0.18em]→[0.14em]` for field labels, `tracking-widest→[0.12em]` for inline controls.
+- `-webkit-font-smoothing: antialiased` is **banned**: on a near-black canvas it thins
+  glyph strokes and reads as washed out.
 - Numbers/metrics/bytes/sizes/timestamps: `tabular-nums`.
+- Text-bearing tokens must clear **AA (4.5:1)**; `bone-500` and below are structural
+  (rules, placeholders) only. The grain overlay stays ≤ 2% opacity for the same reason.
 - Stylistic sets enabled for JetBrains Mono (`ss01`, `cv02–04`, `cv11`) for the
   stylized zero and slashed-look.
 
@@ -42,15 +54,18 @@ gear, CRT terminals, Vercel's mono black, xAI's brutalist monospace, and 90s PGP
 Palette is intentionally tiny — three accents + a warm neutral ramp. **No Tailwind
 default colors** are used anywhere in components.
 
-| Token         | Hex       | Role                                       |
-|---------------|-----------|--------------------------------------------|
-| `ink-950`     | `#080808` | Page background                            |
-| `ink-900`     | `#0d0d0d` | Panel surface                              |
-| `ink-800`     | `#141414` | Raised / hover surfaces                    |
-| `ink-700`     | `#1c1c1c` | Pressed / active                           |
-| `bone-50`     | `#f5f3ee` | Primary text (warm off-white, never #fff)  |
-| `bone-300`    | `#8f8a7f` | Secondary text                             |
-| `bone-500`    | `#3a3833` | Dividers / placeholder borders             |
+| Token         | Hex       | Role                                       | Contrast on `ink-950` |
+|---------------|-----------|--------------------------------------------|-----------------------|
+| `ink-950`     | `#080808` | Page background                            | —                     |
+| `ink-900`     | `#0d0d0d` | Panel surface                              | —                     |
+| `ink-800`     | `#141414` | Raised / hover surfaces                    | —                     |
+| `ink-700`     | `#1c1c1c` | Pressed / active                           | —                     |
+| `bone-50`     | `#f7f5f0` | Primary text (warm off-white, never #fff)  | 18.4:1                |
+| `bone-100`    | `#efece4` | Body copy                                  | 17.0:1                |
+| `bone-200`    | `#dbd6cb` | Field labels, emphasis                     | 13.8:1                |
+| `bone-300`    | `#bab4a7` | Secondary text                             | 9.7:1                 |
+| `bone-400`    | `#a09a8d` | Muted labels                               | 7.2:1                 |
+| `bone-500`    | `#6f6a61` | Dividers / placeholders **only** — never copy| 3.7:1               |
 | `signal`      | `#34d399` | Positive action / success / live indicator |
 | `warn`        | `#f5b544` | Caution / decrypt side                     |
 | `danger`      | `#f25c4e` | Errors / destructive / fatal               |
@@ -58,8 +73,8 @@ default colors** are used anywhere in components.
 ## 4. Shape & depth
 
 - **Border radius: 0** everywhere. Sharp corners read as constructed, engineered.
-- Borders are 1px solid, low-contrast (`bone-500/25` on panels), never colored
-  glows.
+- Borders are 1px solid, `bone-500/40` on panels (`/25` was invisible against the
+  near-black surfaces), never colored glows.
 - Depth comes from **hard offset shadows** (`4px 4px 0 0 rgba(...)`) that feel
   like printed ink or stamped plates — not soft Gaussian blurs.
 - Buttons physically "press" on active: `translate-x-[2px] translate-y-[2px]` with
